@@ -1,20 +1,25 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
-info = {
-    'news_count': 100600,
-    'users_count': 1000,
-    'menu': ['Главная', 'О проекте', 'Каталог'],
-}
-
-
-def get_all_news(request):
-    return render(request, 'news/catalog.html', info)
-
-
-def get_news_by_id(request, news_id):
-    return HttpResponse(f'Новость {news_id}')
+from news.models import Article
 
 
 def main(request):
-    return render(request, 'main.html', info)
+    context = {
+        "news_list": Article.objects.all()[:5],
+    }
+    return render(request, "catalog.html", context)
+
+
+def contacts(request):
+    return render(request, "contacts.html")
+
+
+def get_all_news(request):
+    context = {"news_list": Article.objects.all()}
+    return render(request, "catalog.html", context)
+
+
+def get_news_by_id(request, news_id):
+    content = {"news": get_object_or_404(Article, pk=news_id)}
+    return render(request, "news_detail.html", content)

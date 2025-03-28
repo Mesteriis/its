@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+    <div class="d-flex g-4 flex-column">
+{#        <h1 class="mb-4">Последние новости</h1>#}
+        {% for news in news_list %}
+            <div class="w-100">
+                <div class="neu-card h-100 p-2">
+                    <h4>{{ news.title }}</h4>
+                    <p class="text-muted">{{ news.publication_date|date:"d.m.Y H:i" }}</p>
+                    <p>{{ news.content }}<br>
+                        <a href="{% url 'news_detail' news.id %}">Читать далее</a>
+                    </p>
+                </div>
+            </div>
+            <br>
+        {% empty %}
+            <p>Пока новостей нет 😔</p>
+        {% endfor %}
+    </div>
+{% endblock %}

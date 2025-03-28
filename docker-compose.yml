@@ -1,0 +1,14 @@
+version: "3"
+services:
+  db:
+    image: postgres:13-alpine
+    container_name: tenant_db
+    restart: always
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - ./docker/data/db/data:/var/lib/postgresql/data
+      - ./docker/data/db/backup:/backup
+    ports:
+      - "7432:5432"
+

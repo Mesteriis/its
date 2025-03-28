@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{{ news.title }} | Новости{% endblock %}
+
+{% block content %}
+<div class="neu-card p-4 mb-4" data-aos="fade-up">
+    <h1 class="mb-3">{{ news.title }}</h1>
+
+    <div class="text-muted mb-3 d-flex justify-content-between">
+        <div>🕒 {{ news.published_at|date:"d.m.Y H:i" }}</div>
+        <div>📂 Категория: {{ news.category.name }}</div>
+    <div>📂 Теги:
+        {% for teg in news.tags.all %}
+            {{ teg.name }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </div>
+
+    </div>
+
+    {% if news.image %}
+    <div class="mb-4 text-center" data-aos="zoom-in">
+        <img src="{{ news.image.url }}" alt="{{ news.title }}" class="img-fluid rounded shadow">
+    </div>
+    {% endif %}
+
+    <div class="fs-5 lh-lg" data-aos="fade-up" data-aos-delay="100">
+        {{ news.content|linebreaks }}
+    </div>
+</div>
+
+<a href="{% url 'home' %}" class="neu-button">← Назад к новостям</a>
+{% endblock %}
